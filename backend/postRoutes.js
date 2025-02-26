@@ -28,4 +28,20 @@ postRoutes.route("/posts/:id").get(async (req, res) => {
     }
 });
 
+// Create
+postRoutes.route("/posts").post(async (req, res) => {
+    let db = database.getDb();
+    let mongoObject = {
+        title: req.body.title,
+        description: req.body.description,
+        content: req.body.content,
+        author: req.body.author,
+        dateCreated: req.body.dateCreated,
+    };
+
+    let data = await db.collection("posts").insertOne(mongoObject);
+    res.json(data);
+});
+
+
 module.exports = postRoutes;
