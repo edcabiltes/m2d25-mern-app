@@ -7,3 +7,5 @@ backend/node_modules/
 .env
 frontend/.env
 backend/.env
+
+backend/config.env
