@@ -43,5 +43,20 @@ postRoutes.route("/posts").post(async (req, res) => {
     res.json(data);
 });
 
+// Update
+postRoutes.route("/posts/:id").put(async (req, res) => {
+    let db = database.getDb();
+    let mongoObject = {
+        $set: {
+            title: req.body.title,
+            description: req.body.description,
+            content: req.body.content,
+            author: req.body.author,
+            dateCreated: req.body.dateCreated,
+        }
+    };
+    let data = await db.collection("posts").updateOne({ _id: new ObjectId(req.params.id) }, mongoObject);
+    res.json(data);
+});
 
 module.exports = postRoutes;
