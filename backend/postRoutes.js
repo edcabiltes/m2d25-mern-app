@@ -59,4 +59,11 @@ postRoutes.route("/posts/:id").put(async (req, res) => {
     res.json(data);
 });
 
+// Delete
+postRoutes.route("/posts/:id").delete(async (req, res) => {
+    let db = database.getDb();
+    let data = await db.collection("posts").deleteOne({ _id: new ObjectId(req.params.id) });
+    res.json(data);
+});
+
 module.exports = postRoutes;
