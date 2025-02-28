@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { getPosts, getPost, createPost, updatedPost, deletePost} from './api'
 import './App.css'
 
 function App() {
-  const [data, setData] = useState()
+  const [posts, setPosts] = useState()
 
   useEffect(() => {
-    async function grabData() {
-      const response = await axios.get('http://localhost:3000/posts')
-      if (response.status === 200) {
-        setData(response.data)
+    async function loadAllPosts() {
+      let data = await getPosts()
+      if (data) {
+        setPosts(data)
       }
     }
 
-    grabData()
+    loadAllPosts()
   }, [])
 
   return (
     <>
-      {JSON.stringify(data)}
+      {JSON.stringify(posts)}
     </>
   )
 }
