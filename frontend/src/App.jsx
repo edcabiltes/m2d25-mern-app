@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react'
-import { getPosts, getPost, createPost, updatedPost, deletePost} from './api'
 import './App.css'
+import {HashRouter as Router, Routes, Route} from 'react-router-dom'
+import About from '../pages/About'
+import Contact from '../pages/Contact'
+import CreateBlog from '../pages/CreateBlog'
+import Home from '../pages/Home'
+import Landing from '../pages/Landing'
+import Profile from '../pages/Profile'
+import ReadBlog from '../pages/ReadBlog'
 
 function App() {
-  const [posts, setPosts] = useState()
-
-  useEffect(() => {
-    async function loadAllPosts() {
-      let data = await getPosts()
-      if (data) {
-        setPosts(data)
-      }
-    }
-
-    loadAllPosts()
-  }, [])
 
   return (
-    <>
-      {JSON.stringify(posts)}
-    </>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Landing />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/create-blog' element={<CreateBlog />} />
+        <Route path='/read-blog' element={<ReadBlog />} />
+      </Routes>
+    </Router>
   )
 }
 
