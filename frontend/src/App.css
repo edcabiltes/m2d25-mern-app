@@ -40,3 +40,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 50%;
+  left: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navItem {
+  padding: 4px;
+  margin: 4px;
+  color: white;
+  boder-style: solid;
+  boder-width: 2px;
+  boder-radius: 4px;
+}
