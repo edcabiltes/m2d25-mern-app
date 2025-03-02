@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getPosts } from "../api"
+import BlogCard from "../components/BlogCard"
 
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
   useEffect(() => {
     async function loadPosts() {
       const data = await getPosts()
+      data.sort((d1, d2) => new Date(d2.dateCreated).getTime() - new Date(d1.dateCreated).getTime()) 
       setPosts(data)
     }
 
@@ -15,16 +17,12 @@ export default function Home() {
   }, [])
 
   return (
-    <>
+    <div className="posts">
       {posts.map((post) => {
         return (
-          <>
-            <h2>{post.title}</h2>
-            <p>{post.description}</p>
-            <p>{post.dateCreated}</p>
-          </>
+          <BlogCard post={post} />
         )
       })}
-    </>
+    </div>
   )
 }

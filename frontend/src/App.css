@@ -58,3 +58,19 @@
   boder-width: 2px;
   boder-radius: 4px;
 }
+
+.posts {
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+  margin: 4px;
+  padding: 4px;
+  boder-radius: 10px;
+}
+
+.post:hover {
+  cursor: pointer;
+  background-color: #aaa;
+}
