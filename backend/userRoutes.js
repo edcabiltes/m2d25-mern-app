@@ -1,8 +1,10 @@
 const express = require('express');
 const database = require('./connect');
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 
 let userRoutes = express.Router();
+const SALT_ROUNDS = 6;
 
 // Retrieve All
 userRoutes.route("/users").get(async (req, res) => {
@@ -31,16 +33,25 @@ userRoutes.route("/users/:id").get(async (req, res) => {
 // Create
 userRoutes.route("/users").post(async (req, res) => {
     let db = database.getDb();
-    let mongoObject = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        joinDate: new Date(),
-        posts: []
-    };
 
-    let data = await db.collection("users").insertOne(mongoObject);
-    res.json(data);
+    const takenEmail = await db.collection("users").findOne({ email: req.body.email });
+
+    if (takenEmail) {
+        res.json({ message: "Email already taken" });
+    } else {
+        const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+
+        let mongoObject = {
+            name: req.body.name,
+            email: req.body.email,
+            password: hash,
+            joinDate: new Date(),
+            posts: []
+        };
+    
+        let data = await db.collection("users").insertOne(mongoObject);
+        res.json(data);
+    }
 });
 
 // Update
