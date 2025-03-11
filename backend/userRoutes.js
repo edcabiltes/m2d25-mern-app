@@ -77,4 +77,23 @@ userRoutes.route("/users/:id").delete(async (req, res) => {
     res.json(data);
 });
 
+// Create
+userRoutes.route("/users/login").post(async (req, res) => {
+    let db = database.getDb();
+
+    const user = await db.collection("users").findOne({ email: req.body.email });
+
+    if (user) {
+        let confirmPassword = await bcrypt.compare(req.body.password, user.password);
+        if (confirmPassword) {
+            res.json({ sucess: true, user});
+        } else {
+            res.json({ sucess: false, message: "Password incorrect" });
+        }    
+    } else {
+        res.json({ sucess: false, message: "User not found" });
+    
+    }
+});
+
 module.exports = userRoutes;
